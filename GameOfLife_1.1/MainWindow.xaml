@@ -1,0 +1,25 @@
+﻿<Window x:Class="GameOfLife.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Гра Життя" Height="600" Width="550">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Canvas x:Name="GameCanvas" Background="White" Grid.Row="0" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+            <Button Content="Старт" Click="StartButton_Click" Margin="5" />
+            <Button Content="Стоп" Click="StopButton_Click" Margin="5" />
+            <Button Content="Крок вперед" Click="StepButton_Click" Margin="5" />
+            <Button Content="Очистити" Click="ClearButton_Click" Margin="5" />
+            <Button Content="Випадково" Click="RandomButton_Click" Margin="5" />
+            <Button Content="Зберегти" Click="SaveButton_Click" Margin="5"/>
+            <Button Content="Завантажити" Click="LoadButton_Click" Margin="5"/>
+            <TextBlock x:Name="GenerationText" Margin="10,0" VerticalAlignment="Center" FontWeight="Bold" />
+            <TextBlock x:Name="AliveCountText" Margin="10,0" VerticalAlignment="Center" FontWeight="Bold" />
+        </StackPanel>
+    </Grid>
+</Window>
