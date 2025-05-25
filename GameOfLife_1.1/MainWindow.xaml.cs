@@ -4,6 +4,7 @@ using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -102,31 +103,43 @@ namespace GameOfLife
 
         private void DrawGrid()
         {
-            Dispatcher.Invoke(() =>
+            try
             {
-                double cellSize = Math.Min(GameCanvas.ActualWidth / cols, GameCanvas.ActualHeight / rows);
+                Dispatcher.Invoke(() =>
+                {
+                    double cellSize = Math.Min(GameCanvas.ActualWidth / cols, GameCanvas.ActualHeight / rows);
+                    var gameGrid = controller.Grid as GameGrid;
+                    if (gameGrid == null) return;
 
-                var gameGrid = controller.Grid as GameGrid;
-                if (gameGrid == null) return;
-
-                for (int i = 0; i < rows; i++)
-                    for (int j = 0; j < cols; j++)
+                    for (int i = 0; i < rows; i++)
                     {
-                        var cell = gameGrid.Cells[i][j];
-                        var rect = cellRects[i, j];
-                        rect.Width = rect.Height = cellSize;
-                        Canvas.SetLeft(rect, j * cellSize);
-                        Canvas.SetTop(rect, i * cellSize);
-
-                        rect.Fill = cell.IsAlive
-                            ? (cell.JustBorn ? Brushes.LightGreen : Brushes.Black)
-                            : Brushes.White;
+                        for (int j = 0; j < cols; j++)
+                        {
+                            var cell = gameGrid.Cells[i][j];
+                            var rect = cellRects[i, j];
+                            rect.Width = rect.Height = cellSize;
+                            Canvas.SetLeft(rect, j * cellSize);
+                            Canvas.SetTop(rect, i * cellSize);
+                            rect.Fill = cell.IsAlive
+                                ? (cell.JustBorn ? Brushes.LightGreen : Brushes.Black)
+                                : Brushes.White;
+                        }
                     }
 
-                GenerationText.Text = $"Покоління: {controller.Grid.Generation}";
-                AliveCountText.Text = $"Живих клітин: {controller.Grid.CountAlive()}";
-            });
+                    GenerationText.Text = $"Покоління: {controller.Grid.Generation}";
+                    AliveCountText.Text = $"Живих клітин: {controller.Grid.CountAlive()}";
+                });
+            }
+            catch (TaskCanceledException)
+            {
+                // Завдання було скасовано — ігноруємо або логгування, якщо потрібно
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка під час малювання: {ex.Message}");
+            }
         }
+
 
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
