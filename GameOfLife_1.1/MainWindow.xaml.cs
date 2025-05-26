@@ -2,7 +2,10 @@
 using GameOfLife.Models;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,6 +24,11 @@ namespace GameOfLife
         private int cols = 30;
         private bool isMouseDown = false;
         private bool isErasing = false;
+
+        private List<string> previousHashes = new();
+        private int stabilityCounter = 0;
+        private const int StabilityThreshold = 3;
+        private int lastAliveCount = -1;
 
         public MainWindow()
         {
@@ -128,11 +136,33 @@ namespace GameOfLife
 
                     GenerationText.Text = $"Покоління: {controller.Grid.Generation}";
                     AliveCountText.Text = $"Живих клітин: {controller.Grid.CountAlive()}";
+
+                    var hash = GetGridHash(gameGrid);
+                    int currentAlive = controller.Grid.CountAlive();
+
+                    if (currentAlive == lastAliveCount && previousHashes.Count > 0 && previousHashes[^1] == hash)
+                    {
+                        stabilityCounter++;
+                    }
+                    else
+                    {
+                        stabilityCounter = 0;
+                    }
+
+                    lastAliveCount = currentAlive;
+                    previousHashes.Add(hash);
+                    if (previousHashes.Count > StabilityThreshold)
+                        previousHashes.RemoveAt(0);
+
+                    if (stabilityCounter >= StabilityThreshold)
+                    {
+                        controller.Stop();
+                        MessageBox.Show("Стабільне поєднання клітин. Гра завершена.", "Завершення", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 });
             }
             catch (TaskCanceledException)
             {
-                // Завдання було скасовано — ігноруємо або логгування, якщо потрібно
             }
             catch (Exception ex)
             {
@@ -140,10 +170,26 @@ namespace GameOfLife
             }
         }
 
+        private string GetGridHash(GameGrid grid)
+        {
+            var bits = new StringBuilder();
+            foreach (var row in grid.Cells)
+                foreach (var cell in row)
+                    bits.Append(cell.IsAlive ? '1' : '0');
 
+            using var sha = SHA256.Create();
+            var hashBytes = sha.ComputeHash(Encoding.UTF8.GetBytes(bits.ToString()));
+            return Convert.ToBase64String(hashBytes);
+        }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            if (controller.Grid.CountAlive() == 0)
+            {
+                MessageBox.Show("Поле порожнє. Додайте хоча б одну живу клітину, щоб почати гру.", "Увага", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             controller.Start();
         }
 
