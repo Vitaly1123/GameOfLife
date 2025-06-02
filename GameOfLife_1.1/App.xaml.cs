@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GameOfLife_1._1
+namespace GameOfLife
 {
     /// <summary>
     /// Interaction logic for App.xaml

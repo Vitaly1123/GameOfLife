@@ -10,8 +10,6 @@ namespace GameOfLife.Models
         public override int Rows => Cells.Count;
         public override int Cols => Cells[0].Count;
 
-        public GameGrid() { }
-
         public GameGrid(int rows, int cols)
         {
             Cells = new List<List<CellModel>>();
@@ -26,7 +24,6 @@ namespace GameOfLife.Models
             }
         }
 
-
         public override void Step()
         {
             var newCells = new List<List<CellModel>>();
@@ -37,7 +34,6 @@ namespace GameOfLife.Models
                 {
                     int aliveNeighbors = CountAliveNeighbors(i, j);
                     bool isAlive = Cells[i][j].IsAlive;
-
                     var newCell = new CellModel();
 
                     if (isAlive)
@@ -70,12 +66,10 @@ namespace GameOfLife.Models
                             newCell.JustBorn = false;
                         }
                     }
-
                     newRow.Add(newCell);
                 }
                 newCells.Add(newRow);
             }
-
             Cells = newCells;
             Generation++;
         }
@@ -83,8 +77,12 @@ namespace GameOfLife.Models
         public override void Clear()
         {
             for (int i = 0; i < Rows; i++)
+            {
                 for (int j = 0; j < Cols; j++)
+                {
                     Cells[i][j] = new CellModel();
+                }
+            }
             Generation = 0;
         }
 

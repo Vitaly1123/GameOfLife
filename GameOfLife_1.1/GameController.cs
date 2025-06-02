@@ -12,12 +12,10 @@ namespace GameOfLife.Controllers
     {
         private Timer _timer;
         private BaseGrid _grid;
-
-        private Queue<string> stableStatesQueue = new Queue<string>();
-        private HashSet<string> previousHashes = new HashSet<string>();
+        private Queue<string> lastHashes = new Queue<string>();
+        private HashSet<string> seenHashes = new HashSet<string>();
 
         public BaseGrid Grid => _grid;
-
         public event Action GridUpdated;
 
         public GameController(int rows, int cols)
@@ -28,42 +26,53 @@ namespace GameOfLife.Controllers
         }
 
         public void Start() => _timer.Start();
-
         public void Stop() => _timer.Stop();
+
+        public void SetTimerInterval(int interval)
+        {
+            _timer.Interval = interval;
+        }
 
         public void StepOnce()
         {
             if (_grid.CountAlive() == 0)
             {
                 Stop();
-                MessageBox.Show("Усі клітини мертві. Гра завершена.", "Кінець", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Усі клітини мертві. Гра завершена.", "Кінець",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
             _grid.Step();
             GridUpdated?.Invoke();
 
-            string hash = GetGridHash();
+            string currentHash = GetGridHash();
 
-            if (previousHashes.Contains(hash))
+            if (lastHashes.Any() && lastHashes.Last() == currentHash)
             {
                 Stop();
-                MessageBox.Show("Виявлено цикл. Гра завершена.", "Цикл", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Стабільне поєднання клітин. Гра завершена.", "Стабільність",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                lastHashes.Clear();
+                seenHashes.Clear();
                 return;
             }
 
-            previousHashes.Add(hash);
+            lastHashes.Enqueue(currentHash);
+            if (lastHashes.Count > 5)
+                lastHashes.Dequeue();
 
-            if (stableStatesQueue.Count == 5 && stableStatesQueue.All(x => x == hash))
+            if (seenHashes.Contains(currentHash))
             {
                 Stop();
-                MessageBox.Show("Стабільне поєднання клітин. Гра завершена.", "Стабільність", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Виявлено цикл. Гра завершена.", "Цикл",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                lastHashes.Clear();
+                seenHashes.Clear();
                 return;
             }
 
-            stableStatesQueue.Enqueue(hash);
-            if (stableStatesQueue.Count > 5)
-                stableStatesQueue.Dequeue();
+            seenHashes.Add(currentHash);
         }
 
         private string GetGridHash()
@@ -72,9 +81,9 @@ namespace GameOfLife.Controllers
             if (gameGrid == null) return "";
 
             var sb = new StringBuilder();
-            foreach (var row in gameGrid.Cells)
-                foreach (var cell in row)
-                    sb.Append(cell.IsAlive ? '1' : '0');
+            for (int i = 0; i < gameGrid.Rows; i++)
+                for (int j = 0; j < gameGrid.Cols; j++)
+                    sb.Append(gameGrid.Cells[i][j].IsAlive ? $"1{i}, {j};" : "");
 
             return sb.ToString();
         }
@@ -82,8 +91,8 @@ namespace GameOfLife.Controllers
         public void Clear()
         {
             _grid.Clear();
-            stableStatesQueue.Clear();
-            previousHashes.Clear();
+            lastHashes.Clear();
+            seenHashes.Clear();
             GridUpdated?.Invoke();
         }
 
@@ -103,16 +112,16 @@ namespace GameOfLife.Controllers
                     }
                 }
             }
-            stableStatesQueue.Clear();
-            previousHashes.Clear();
+            lastHashes.Clear();
+            seenHashes.Clear();
             GridUpdated?.Invoke();
         }
 
         public void SetGrid(BaseGrid newGrid)
         {
             _grid = newGrid;
-            stableStatesQueue.Clear();
-            previousHashes.Clear();
+            lastHashes.Clear();
+            seenHashes.Clear();
             GridUpdated?.Invoke();
         }
     }

@@ -1,9 +1,8 @@
-﻿<Application x:Class="GameOfLife_1._1.App"
+﻿<Application x:Class="GameOfLife.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:GameOfLife_1._1"
-             StartupUri="MainWindow.xaml">
+             StartupUri="PlayWindow.xaml">
     <Application.Resources>
-         
+
     </Application.Resources>
 </Application>
