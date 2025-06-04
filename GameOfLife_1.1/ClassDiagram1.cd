@@ -1,60 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="GameOfLife.Models.BaseGrid" Collapsed="true">
-    <Position X="3" Y="0.5" Width="1.5" />
+  <Class Name="GameOfLife.App">
+    <Position X="10.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOfLife.MainWindow" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAQgQCAAAAEIABBAAwARAYSAACABgAIAAAQEAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GameOfLife.PlayWindow" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAA=</HashCode>
+      <FileName>PlayWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GameOfLife.Models.BaseGrid">
+    <Position X="9" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAABAAAIAAAAAAAAAAIAAAAABAABA=</HashCode>
       <FileName>BaseGrid.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GameOfLife.Models.Cell" Collapsed="true">
-    <Position X="7.25" Y="0.5" Width="1.5" />
+  <Class Name="GameOfLife.Models.Cell">
+    <Position X="12.5" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAIAAAAAAAAAAgAEgQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Cell.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GameOfLife.Models.CellModel" Collapsed="true">
-    <Position X="9" Y="0.5" Width="1.5" />
+  <Class Name="GameOfLife.Models.CellModel">
+    <Position X="12.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAEgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CellModel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GameOfLife.Models.GameGrid" Collapsed="true">
-    <Position X="3" Y="1.5" Width="1.5" />
+  <Class Name="GameOfLife.Models.GameGrid">
+    <Position X="9" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAABIAAIAAAAAAAAQAIAAAAABAAAA=</HashCode>
       <FileName>GameGrid.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameOfLife.Models.GridModel">
-    <Position X="7.25" Y="1.5" Width="1.5" />
+    <Position X="10.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAABIAAIAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>GridModel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GameOfLife.Controllers.GameController" Collapsed="true">
-    <Position X="5.25" Y="1.5" Width="1.5" />
+  <Class Name="GameOfLife.Controllers.GameController">
+    <Position X="16" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAACAgBAAAAIAAAACQAAAAgAAAKAAAAABAAAE=</HashCode>
+      <HashCode>AAAEAgAAACAgBAAAAJAAAgCQAAAggAAAKAAAAABAAAE=</HashCode>
       <FileName>GameController.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="GameOfLife.MainWindow" BaseTypeListCollapsed="true">
-    <Position X="9" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>BAAAAAQgQCAAAAEIABBAAwAQAYSAACAAgAIAAAAEAAA=</HashCode>
-      <FileName>MainWindow.xaml.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="GameOfLife_1._1.App">
-    <Position X="5.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

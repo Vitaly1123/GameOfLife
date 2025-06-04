@@ -13,12 +13,12 @@ namespace GameOfLife
         {
             MainWindow gameWindow = new MainWindow();
             gameWindow.Show();
-            this.Close(); // Закриваємо поточне вікно
+            this.Close(); 
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown(); // Закриваємо весь додаток
+            Application.Current.Shutdown();
         }
     }
 }

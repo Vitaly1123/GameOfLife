@@ -1,4 +1,5 @@
-﻿using GameOfLife.Controllers;
+﻿// MainWindow.xaml.cs
+using GameOfLife.Controllers;
 using GameOfLife.Models;
 using Microsoft.Win32;
 using System;
@@ -36,7 +37,6 @@ namespace GameOfLife
             InitializeComponent();
             InitializeGame();
             SizeChanged += (s, e) => DrawGrid();
-
             if (controller != null)
             {
                 controller.SetTimerInterval((int)SpeedSlider.Value);
@@ -48,13 +48,11 @@ namespace GameOfLife
             controller = new GameController(rows, cols);
             controller.GridUpdated += DrawGrid;
             cellRects = new Rectangle[rows, cols];
-
             GameCanvas.MouseLeftButtonDown += Canvas_MouseLeftButtonDown;
             GameCanvas.MouseLeftButtonUp += (s, e) => isMouseDown = false;
             GameCanvas.MouseRightButtonDown += (s, e) => { isMouseDown = true; isErasing = true; };
             GameCanvas.MouseRightButtonUp += (s, e) => { isMouseDown = false; isErasing = false; };
             GameCanvas.MouseMove += Canvas_MouseMove;
-
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
@@ -68,7 +66,6 @@ namespace GameOfLife
                     cellRects[i, j] = rect;
                 }
             }
-
             DrawGrid();
         }
 
@@ -92,12 +89,10 @@ namespace GameOfLife
             Point position = e.GetPosition(GameCanvas);
             double cellSize = Math.Min(GameCanvas.ActualWidth / cols,
                                       GameCanvas.ActualHeight / rows);
-
             int j = (int)(position.X / cellSize);
             int i = (int)(position.Y / cellSize);
             var gameGrid = controller.Grid as GameGrid;
             if (gameGrid == null) return;
-
             if (i >= 0 && i < rows && j >= 0 && j < cols)
             {
                 var cell = gameGrid.Cells[i][j];
@@ -128,30 +123,24 @@ namespace GameOfLife
                                               GameCanvas.ActualHeight / rows);
                     var gameGrid = controller.Grid as GameGrid;
                     if (gameGrid == null) return;
-
                     for (int i = 0; i < rows; i++)
                     {
                         for (int j = 0; j < cols; j++)
                         {
                             var cell = gameGrid.Cells[i][j];
                             var rect = cellRects[i, j];
-
                             rect.Width = rect.Height = cellSize;
                             Canvas.SetLeft(rect, j * cellSize);
                             Canvas.SetTop(rect, i * cellSize);
-
                             rect.Fill = cell.IsAlive
                                 ? (cell.JustBorn ? Brushes.LightGreen : Brushes.Black)
                                 : Brushes.White;
                         }
                     }
-
                     GenerationText.Text = $"Покоління: {controller.Grid.Generation}";
                     AliveCountText.Text = $"Живих клітин: {controller.Grid.CountAlive()}";
-
                     var hash = GetGridHash(gameGrid);
                     int currentAlive = controller.Grid.CountAlive();
-
                     if (currentAlive == lastAliveCount && previousHashes.Count > 0 &&
                         previousHashes[^1] == hash)
                     {
@@ -161,10 +150,8 @@ namespace GameOfLife
                     {
                         stabilityCounter = 0;
                     }
-
                     lastAliveCount = currentAlive;
                     previousHashes.Add(hash);
-
                     if (previousHashes.Count > StabilityThreshold)
                         previousHashes.RemoveAt(0);
                 });
@@ -196,7 +183,6 @@ namespace GameOfLife
                 MessageBox.Show("Поле порожнє. Додайте хоча б одну живу клітину, щоб почати гру.", "Увага", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
-
             if (!gameWasStopped)
             {
                 controller.Grid.Generation = 0;
@@ -217,6 +203,11 @@ namespace GameOfLife
         private void StepButton_Click(object sender, RoutedEventArgs e)
         {
             controller.StepOnce();
+        }
+
+        private void StepBackButton_Click(object sender, RoutedEventArgs e) // New Click Handler
+        {
+            controller.StepBack();
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)

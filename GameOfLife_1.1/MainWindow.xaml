@@ -9,29 +9,25 @@
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
-        <!-- Панель кнопок зліва -->
         <StackPanel Grid.Column="0" Margin="10" VerticalAlignment="Top">
             <TextBlock Text="Керування" FontWeight="Bold" FontSize="18" Margin="0,0,0,15"/>
             <Button Content="▶ Старт" Click="StartButton_Click" Margin="0,5" Height="35"/>
             <Button Content="⏸ Стоп" Click="StopButton_Click" Margin="0,5" Height="35"/>
             <Button Content="⏭ Крок вперед" Click="StepButton_Click" Margin="0,5" Height="35"/>
+            <Button Content="⏮ Крок назад" Click="StepBackButton_Click" Margin="0,5" Height="35"/>
             <Button Content="🧹 Очистити" Click="ClearButton_Click" Margin="0,5" Height="35"/>
-            <Button Content="🎲 Випадково" Click="RandomButton_Click" Margin="0,5" Height="35"/>
-            <Button Content="💾 Зберегти" Click="SaveButton_Click" Margin="0,5" Height="35"/>
-            <Button Content="📂 Завантажити" Click="LoadButton_Click" Margin="0,5" Height="35"/>
+            <Button Content=" 🎲  Випадково" Click="RandomButton_Click" Margin="0,5" Height="35"/>
+            <Button Content=" 💾  Зберегти" Click="SaveButton_Click" Margin="0,5" Height="35"/>
+            <Button Content=" 📂  Завантажити" Click="LoadButton_Click" Margin="0,5" Height="35"/>
             <TextBlock Text="Швидкість" FontWeight="Bold" FontSize="16" Margin="0,20,0,5"/>
             <Slider x:Name="SpeedSlider" Minimum="50" Maximum="500" Value="200" TickPlacement="BottomRight" TickFrequency="50" IsSnapToTickEnabled="True" ValueChanged="SpeedSlider_ValueChanged"/>
             <TextBlock x:Name="CurrentSpeedText" FontSize="12" Margin="0,5,0,0" Text="{Binding ElementName=SpeedSlider, Path=Value, StringFormat='{}Поточна швидкість: {0} мс'}"/>
-            <!-- Статистика -->
             <StackPanel Margin="0,20,0,0">
                 <TextBlock Text="Статистика" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
                 <TextBlock x:Name="GenerationText" FontSize="14" Margin="0,2"/>
                 <TextBlock x:Name="AliveCountText" FontSize="14" Margin="0,2"/>
             </StackPanel>
         </StackPanel>
-
-        <!-- Поле гри -->
         <Canvas x:Name="GameCanvas" Grid.Column="1" Background="Gray" Margin="10"/>
     </Grid>
 </Window>
